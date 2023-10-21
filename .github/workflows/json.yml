@@ -1,0 +1,33 @@
+name: Update JSON file
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+    - run: pip install -r requirements.txt
+
+    - name: Update JSON File
+      run: |
+        python script.py
+
+    - name: Commit JSON to project
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: 'Update JSON file'
+        branch: main
