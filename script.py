@@ -110,3 +110,14 @@ with open(json_file_path, 'w') as json_file:
     json.dump(completist_dict, json_file, indent=4)
 
 print(f'Data saved to {json_file_path}')
+
+# https://metagamerscore.com/platform_toplist/roblox/firsts
+firsts_dict = getMetaGamerScore_leaderboard_stats("firsts")
+getUserIds(firsts_dict)
+
+json_file_path = 'firsts_rblx.json'
+
+with open(json_file_path, 'w') as json_file:
+    json.dump(firsts_dict, json_file, indent=4)
+
+print(f'Data saved to {json_file_path}')
