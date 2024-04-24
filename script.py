@@ -3,15 +3,58 @@ from bs4 import BeautifulSoup
 import time
 import re
 import json
+import sys
+import random
+import math
 
 # the art of bodging doesn't care about beauty
 # IT WILL BE JANKY AND YOU ARE GONNA LIKE IT
 
 requestSession = requests.Session()
-adapter = requests.adapters.HTTPAdapter(max_retries=5)
-requestSession.mount('https://', adapter)
-requestSession.mount('http://', adapter)
 requestSession.headers['User-Agent'] = "roblox_mgs_leaderboard github action"
+
+def requestURL(url, retryAmount=8):
+    tries = 0
+    print(f"Requesting {url}...")
+    for _ in range(retryAmount):
+        tries += 1
+        try:
+            response = requestSession.get(url)
+            if response.status_code == 200:
+                return response
+            response.raise_for_status()
+        except requests.exceptions.Timeout:
+            print("Timed out!")
+            print(f"Request failed: {e}")
+        except requests.exceptions.TooManyRedirects:
+            print("Too many redirects!")
+            print(f"Request failed: {e}")
+            return False
+        except requests.exceptions.HTTPError as e:
+            if response.status_code == 429:
+                print("Too many requests!")
+        except requests.exceptions.RequestException as e:
+            print(f"Request failed: {e}")
+            return False
+        if tries < retryAmount:
+            sleep_time = random.randint(
+                math.floor(2 ** (tries - 0.5)),
+                math.floor(2 ** tries)
+                )
+            print("Sleeping", sleep_time, "seconds.")
+            time.sleep(sleep_time)
+    return False
+    
+check = requestURL("https://metagamerscore.com/")
+#check = requestURL("https://httpstat.us/429")
+if check == False:
+    print("MGS is giving an error; skipping extraction for now...")
+    sys.exit(1)
+
+print(f"MGS status code: {check.status_code}")
+print(f"MGS response headers:\n{check.headers}")
+requestSession.cookies = check.cookies
+#print(a)
 
 def extractTable(table):
     data_list = []
@@ -44,7 +87,8 @@ def getMetaGamerScore_leaderboard_stats(type):
         #pageNum = 1
         #print(x)
         url = f"https://metagamerscore.com/platform_toplist/roblox/{str(type)}?page={x}"
-        req = requestSession.get(url)
+        req = requestURL(url)
+        print(f"Response status code: {req.status_code}")
 
         if req.ok:
             soup = BeautifulSoup(req.text, 'html.parser')
@@ -64,20 +108,24 @@ def getMetaGamerScore_leaderboard_stats(type):
 
 #print(data_dict)
 
-# yes, i know this is wasteful, but it is quick and the fix would take an hour more to do so i don't care >:)
+whosWho = {}
 def getUserIds(data_dict):
     for rank in data_dict:
         mgs_link = data_dict[rank]['mgs_link']
+
         if mgs_link == "":
-            print("No MGS profile; profile hidden from public / not found when importing table...")
+            print(f"No MGS profile for rank {str(rank)}; profile hidden from public / not found when importing table...")
             data_dict[rank]['roblox_id'] = None
             continue
+
+        if mgs_link in whosWho:
+            print(f"Already checked {str(mgs_link)}")
+            data_dict[rank]['roblox_id'] = whosWho[mgs_link]
+            continue
+
         url = f"https://metagamerscore.com{mgs_link}?tab=accounts"
-        #print(url)
-
-        req = requestSession.get(url)
-
-        print(f"Status Code {req.status_code}")
+        req = requestURL(url)
+        print(f"Response status code: {req.status_code}")
 
         if req.ok:
             soup = BeautifulSoup(req.text, 'html.parser')
@@ -101,7 +149,8 @@ def getUserIds(data_dict):
                     user_id = match.group(1)
                     print(f"{str(mgs_link)} is Roblox User ID {str(user_id)}")
                     data_dict[rank]['roblox_id'] = int(user_id)
-                    time.sleep(.75)
+                    whosWho[mgs_link] = int(user_id)
+                    #time.sleep(.75)
                     continue
                 else:
                     print(f"No match found for {str(mgs_link)}")
