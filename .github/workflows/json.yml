@@ -25,10 +25,14 @@ jobs:
     - name: Update JSON File
       run: |
         python script.py
-
+    
+    - name: Get current time and date
+      id: date
+      run: echo "::set-output name=date::$(date -u +'%Y/%m/%d %H:%M:%S UTC')"
+    
     - name: Commit JSON to project
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        commit_message: 'Update JSON file'
+        commit_message: 'Update JSON file (${{ steps.date.outputs.date }})'
         branch: main
         commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
