@@ -6,6 +6,7 @@ import json
 import sys
 import random
 import math
+import base64
 
 # the art of bodging doesn't care about beauty
 # IT WILL BE JANKY AND YOU ARE GONNA LIKE IT
@@ -81,26 +82,78 @@ def extractTable(table):
 
     return data_list
 
+def check_if_last_page(data_pagy):
+    try:
+        decode = base64.b64decode(data_pagy).decode('utf-8')
+        jason = json.loads(decode)
+        for key, value in jason[1].items():
+            jason[1][key] = value.encode('utf-8').decode('unicode_escape')
+        after = jason[1].get('after', '')
+        is_last_page = 'disabled' in after
+        return is_last_page
+    except:
+        return False
+
 def getMetaGamerScore_leaderboard_stats(type):
     data_dict = {}
 
-    for x in range(1, 3):
+    pageNum = 1
+    attempt = 0
+    #lastFirstProfileOnPage = ""
+    while True:
         #pageNum = 1
         #print(x)
-        url = f"https://metagamerscore.com/platform_toplist/roblox/{str(type)}?page={x}"
+        url = f"https://metagamerscore.com/platform_toplist/roblox/{str(type)}?page={pageNum}"
         req = requestURL(url)
-        print(f"Response status code: {req.status_code}")
+
+        if attempt >= 3:
+            print(f"Out of attempts for getMetaGamerScore_leaderboard_stats loop on [{str(type)}]; breaking loop!")
+            break
+        elif attempt != 0:
+            print("Trying again...")
+
+        if req == None:
+            print("requestURL ran out of attempts...")
+            attempt += 1
+            continue
+        elif req == False:
+            print("requestURL returned False...")
+            attempt += 1
+            continue
 
         if req.ok:
+            attempt = 0
             soup = BeautifulSoup(req.text, 'html.parser')
             table = soup.find('table')
             table_data = extractTable(table)
             
+            # while i could base64 decode the <nav> data-pagy, this is 10x easier to handle. ...it could go wrong if mass amounts rapidly join the leaderboard...
+            # ...what if the first profile on the page has their account hidden from guests? then the loop would keep going... not good, not good at all...
+            # firstProfileOnPage = table_data[0][1]
+            # if lastFirstProfileOnPage == firstProfileOnPage:
+            #     print(f"{str(firstProfileOnPage)} is the same as {str(lastFirstProfileOnPage)}; no more pages to scan for [{str(type)}]")
+            #     print("Breaking loop...")
+            #     break
+            # lastFirstProfileOnPage = firstProfileOnPage
+
+            print(f"Adding page {str(pageNum)}'s table to table_data...")
             for rank, user_link, score in table_data:
                 data_dict[rank] = {
                     "mgs_link": user_link,
                     "score": score
                 }
+
+            print("Checking data-pagy...")
+            data_pagy = soup.find('nav', class_='pagy-nav-js').get('data-pagy')
+            if check_if_last_page(data_pagy) == True:
+                print("No more pages! Breaking loop...")
+                break
+
+            print("Going to next page...")
+            pageNum += 1
+        else:
+            print(f"Response status code: {req.status_code}")
+            attempt += 1
 
     if data_dict == {}: # page error?
         print("Nothing has been found; something went completely wrong")
@@ -171,7 +224,7 @@ for category in categories:
     print(f"Getting category [{category}]...")
     toplist_dict = getMetaGamerScore_leaderboard_stats(category)
     if toplist_dict == False:
-        print(toplist_dict)
+        print("toplist_dict is False...")
     else:
         print("Grabbed list successfully!")
 
