@@ -43,7 +43,8 @@ def requestURL(url, retryAmount=8):
                 )
             print("Sleeping", sleep_time, "seconds.")
             time.sleep(sleep_time)
-    return False
+    print("Out of tries!")
+    return None
     
 check = requestURL("https://metagamerscore.com/")
 #check = requestURL("https://httpstat.us/429")
