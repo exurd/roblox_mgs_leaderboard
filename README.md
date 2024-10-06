@@ -6,7 +6,7 @@
 ![GitHub commit activity month](https://img.shields.io/github/commit-activity/m/exurd/roblox_mgs_leaderboard?color=AA4A44)
 ![GitHub License](https://img.shields.io/github/license/exurd/roblox_mgs_leaderboard)
 
-This is a Python script that extracts the infomation on the three toplists for the platform "Roblox" on [MetaGamerScore](https://metagamerscore.com/) and saves it to three seperate JSON files.
+This is a Python script that extracts the infomation on the three toplists for the platform "Roblox" on [MetaGamerScore](https://metagamerscore.com/) and saves it to three separate JSON files.
 
 The repository uses GitHub Workflows to update the JSON files every 6 hours.
 
