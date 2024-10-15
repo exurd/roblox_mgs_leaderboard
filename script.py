@@ -14,7 +14,7 @@ import base64
 requestSession = requests.Session()
 requestSession.headers['User-Agent'] = "roblox_mgs_leaderboard github action"
 
-def requestURL(url, retryAmount=8):
+def requestURL(url, retryAmount=8, allow404=False):
     tries = 0
     print(f"Requesting {url}...")
     for _ in range(retryAmount):
@@ -34,6 +34,8 @@ def requestURL(url, retryAmount=8):
         except requests.exceptions.HTTPError as e:
             if response.status_code == 429:
                 print("Too many requests!")
+            if allow404 and response.status_code == 404:
+                return response
         except requests.exceptions.RequestException as e:
             print(f"Request failed: {e}")
             return False
@@ -162,6 +164,19 @@ def getMetaGamerScore_leaderboard_stats(type):
 
 #print(data_dict)
 
+userAccountStatus = {} # True = exists, False = doesn't exist
+def checkAccountStatus(user_id):
+    if user_id in userAccountStatus:
+        return userAccountStatus[user_id]
+
+    print(f"Checking account status for {str(user_id)}...")
+    req = requestURL(f"https://users.roblox.com/v1/users/{str(user_id)}", allow404=True) 
+    if req.status_code == 404:
+        userAccountStatus[user_id] = False
+    else:
+        userAccountStatus[user_id] = True
+    return userAccountStatus[user_id]
+
 whosWho = {}
 def getUserIds(data_dict):
     for rank in data_dict:
@@ -190,6 +205,7 @@ def getUserIds(data_dict):
             
             if profile_links == []:
                 data_dict[rank]['roblox_id'] = None
+                whosWho[mgs_link] = None
                 print("No Roblox User ID detected; profile hidden their gaming accounts from public...")
                 continue
 
@@ -202,8 +218,13 @@ def getUserIds(data_dict):
                 if match:
                     user_id = match.group(1)
                     print(f"{str(mgs_link)} is Roblox User ID {str(user_id)}")
-                    data_dict[rank]['roblox_id'] = int(user_id)
-                    whosWho[mgs_link] = int(user_id)
+                    if checkAccountStatus(user_id):
+                        data_dict[rank]['roblox_id'] = int(user_id)
+                        whosWho[mgs_link] = int(user_id)
+                    else:
+                        print(f"{user_id} account status is 404, setting to None")
+                        data_dict[rank]['roblox_id'] = None
+                        whosWho[mgs_link] = None
                     #time.sleep(.75)
                     continue
                 else:
