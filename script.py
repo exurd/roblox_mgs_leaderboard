@@ -54,6 +54,9 @@ check = requestURL("https://metagamerscore.com/")
 if check == False:
     print("MGS is giving an error; skipping extraction for now...")
     sys.exit(1)
+if check == None:
+    print("Out of tries when requesting MGS; skipping extraction for now...")
+    sys.exit(1)
 
 print(f"MGS status code: {check.status_code}")
 print(f"MGS response headers:\n{check.headers}")
