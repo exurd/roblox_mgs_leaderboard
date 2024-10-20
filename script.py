@@ -1,4 +1,5 @@
 import requests
+import http.client
 from bs4 import BeautifulSoup
 import time
 import re
@@ -24,19 +25,28 @@ def requestURL(url, retryAmount=8, allow404=False):
             if response.status_code == 200:
                 return response
             response.raise_for_status()
-        except requests.exceptions.Timeout:
-            print("Timed out!")
+        except http.client.RemoteDisconnected as e:
+            print("The server closed the connection unexpectedly!")
             print(f"Request failed: {e}")
-        except requests.exceptions.TooManyRedirects:
+        except requests.exceptions.Timeout as e:
+            print("The request timed out!")
+            print(f"Request failed: {e}")
+        except requests.exceptions.ConnectionError as e:
+            print("Could not connect to the server!")
+            print(f"Request failed: {e}")
+        except requests.exceptions.TooManyRedirects as e:
             print("Too many redirects!")
             print(f"Request failed: {e}")
             return False
         except requests.exceptions.HTTPError as e:
             if response.status_code == 429:
-                print("Too many requests!")
+                print("429: Too many requests!")
             if allow404 and response.status_code == 404:
                 return response
+            print("HTTPError exception was called!")
+            print(f"Request failed: {e}")
         except requests.exceptions.RequestException as e:
+            print("RequestException!")
             print(f"Request failed: {e}")
             return False
         if tries < retryAmount:
@@ -165,15 +175,25 @@ def getMetaGamerScore_leaderboard_stats(type):
         return False
     return data_dict
 
-#print(data_dict)
-
+robloxApiStatus = True
 userAccountStatus = {} # True = exists, False = doesn't exist
 def checkAccountStatus(user_id):
     if user_id in userAccountStatus:
         return userAccountStatus[user_id]
 
+    global robloxApiStatus
+    if robloxApiStatus == False:
+        return True
+
     print(f"Checking account status for {str(user_id)}...")
-    req = requestURL(f"https://users.roblox.com/v1/users/{str(user_id)}", allow404=True) 
+    req = requestURL(f"https://users.roblox.com/v1/users/{str(user_id)}", allow404=True)
+
+    if req == None or req == False:
+        print("Roblox APIs are most likely down... Avoiding for this session...")
+        print(f"req: {req}")
+        robloxApiStatus = False
+        return True
+
     if req.status_code == 404:
         userAccountStatus[user_id] = False
     else:
