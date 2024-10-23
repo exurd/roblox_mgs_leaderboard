@@ -230,7 +230,7 @@ else:
     if (time.time() - whosWho["_TIMESTAMP"]) > (86400*3): # 3 day cache
         print("whosWho's timestamp older than current timestamp, clearing cache...")
         whosWho = {}
-    whosWho["_TIMESTAMP"] = time.time()
+        whosWho["_TIMESTAMP"] = time.time()
 def getUserIds(data_dict):
     for rank in data_dict:
         mgs_link = data_dict[rank]['mgs_link']
