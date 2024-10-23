@@ -1,19 +1,19 @@
-import requests
-import http.client
+import requests, http.client
+from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
-import time
-import re
-import json
-import sys
-import random
-import math
-import base64
+import os, time, re, json, sys, random, math, base64
 
 # the art of bodging doesn't care about beauty
 # IT WILL BE JANKY AND YOU ARE GONNA LIKE IT
 
 requestSession = requests.Session()
-requestSession.headers['User-Agent'] = "roblox_mgs_leaderboard github action"
+requestSession.headers['User-Agent'] = UserAgent( # "roblox_mgs_leaderboard github action"
+        os="linux",
+        platforms="pc",
+        browsers="firefox"
+        ).random
+
+print(f"User Agent: {requestSession.headers['User-Agent']}")
 
 def requestURL(url, retryAmount=8, allow404=False):
     tries = 0
@@ -200,7 +200,37 @@ def checkAccountStatus(user_id):
         userAccountStatus[user_id] = True
     return userAccountStatus[user_id]
 
-whosWho = {}
+cache_folder = os.path.join(os.path.dirname(__file__), ".cache")
+os.makedirs(cache_folder, exist_ok=True)
+print(f"cache_folder: [{cache_folder}]")
+
+def load_data(filename):
+    print(f"Loading data from [{filename}]...")
+    data_file_path = os.path.join(cache_folder, filename)
+    if os.path.exists(data_file_path) and os.path.getsize(data_file_path) > 0:
+        with open(data_file_path, "r") as f:
+            data = json.load(f)
+            f.close()
+    else:
+        data = {}
+    return data
+
+def save_data(data,filename):
+    print(f"Saving data to [{filename}]...")
+    data_file_path = os.path.join(cache_folder, filename)
+    with open(data_file_path, "w") as f:
+        json.dump(data, f, indent=4, sort_keys=True)
+        f.close()
+
+whosWho = load_data("mgs_profiles.json")
+print(f"whosWho cache: {whosWho}")
+if whosWho == {}:
+    whosWho["_TIMESTAMP"] = time.time()
+else:
+    if (time.time() - whosWho["_TIMESTAMP"]) > (86400*3): # 3 day cache
+        print("whosWho's timestamp older than current timestamp, clearing cache...")
+        whosWho = {}
+    whosWho["_TIMESTAMP"] = time.time()
 def getUserIds(data_dict):
     for rank in data_dict:
         mgs_link = data_dict[rank]['mgs_link']
@@ -211,7 +241,7 @@ def getUserIds(data_dict):
             continue
 
         if mgs_link in whosWho:
-            print(f"Already checked {str(mgs_link)}")
+            print(f"{str(mgs_link)} is in cache...")
             data_dict[rank]['roblox_id'] = whosWho[mgs_link]
             continue
 
@@ -245,7 +275,7 @@ def getUserIds(data_dict):
                         data_dict[rank]['roblox_id'] = int(user_id)
                         whosWho[mgs_link] = int(user_id)
                     else:
-                        print(f"{user_id} account status is 404, setting to None")
+                        print(f"checkAccountStatus returned False, setting to None")
                         data_dict[rank]['roblox_id'] = None
                         whosWho[mgs_link] = None
                     #time.sleep(.75)
@@ -255,6 +285,7 @@ def getUserIds(data_dict):
         else:
             print("Request is not ok! Printing text:")
             print(req.text)
+    save_data(whosWho,"mgs_profiles.json")
 
 testing = False
 
