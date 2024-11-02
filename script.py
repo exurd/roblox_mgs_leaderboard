@@ -224,13 +224,14 @@ def save_data(data,filename):
 
 whosWho = load_data("mgs_profiles.json")
 print(f"whosWho cache: {whosWho}")
+currentTime = time.time()
 if whosWho == {}:
-    whosWho["_TIMESTAMP"] = time.time()
+    whosWho["_TIMESTAMP"] = currentTime
 else:
-    if (time.time() - whosWho["_TIMESTAMP"]) > (86400*3): # 3 day cache
-        print("whosWho's timestamp older than current timestamp, clearing cache...")
+    if (currentTime - whosWho["_TIMESTAMP"]) > (86400*7): # 1 week cache
+        print(f"whosWho's timestamp ({whosWho["_TIMESTAMP"]}) older than current timestamp ({currentTime}), clearing cache...")
         whosWho = {}
-        whosWho["_TIMESTAMP"] = time.time()
+        whosWho["_TIMESTAMP"] = currentTime
 def getUserIds(data_dict):
     for rank in data_dict:
         mgs_link = data_dict[rank]['mgs_link']
