@@ -6,7 +6,7 @@
     },
     "2": {
         "mgs_link": "/profile/31090",
-        "score": "2007251",
+        "score": "2359746",
         "roblox_id": 64664125
     },
     "3": {
@@ -121,7 +121,7 @@
     },
     "25": {
         "mgs_link": "/profile/30766",
-        "score": "467390",
+        "score": "482231",
         "roblox_id": 559989880
     },
     "26": {
@@ -335,19 +335,19 @@
         "roblox_id": null
     },
     "68": {
-        "mgs_link": "/profile/30786",
-        "score": "156967",
-        "roblox_id": 105233923
-    },
-    "69": {
         "mgs_link": "/profile/19485",
         "score": "153520",
         "roblox_id": 139816438
     },
-    "70": {
+    "69": {
         "mgs_link": "/profile/25591",
         "score": "152306",
         "roblox_id": 27962206
+    },
+    "70": {
+        "mgs_link": "/profile/30786",
+        "score": "150905",
+        "roblox_id": 105233923
     },
     "71": {
         "mgs_link": "/profile/28599",
@@ -706,7 +706,7 @@
     },
     "142": {
         "mgs_link": "/profile/23296",
-        "score": "18199",
+        "score": "18515",
         "roblox_id": 49445602
     },
     "143": {
@@ -831,7 +831,7 @@
     },
     "167": {
         "mgs_link": "/profile/24082",
-        "score": "7654",
+        "score": "7388",
         "roblox_id": 322274919
     },
     "168": {
@@ -1120,14 +1120,14 @@
         "roblox_id": 860955129
     },
     "225": {
-        "mgs_link": "/profile/24933",
-        "score": "143",
-        "roblox_id": null
-    },
-    "226": {
         "mgs_link": "/profile/27524",
         "score": "143",
         "roblox_id": 5683636233
+    },
+    "226": {
+        "mgs_link": "/profile/24933",
+        "score": "143",
+        "roblox_id": null
     },
     "227": {
         "mgs_link": "/pro/LordAvatarII",
@@ -1165,6 +1165,11 @@
         "roblox_id": 4990281043
     },
     "234": {
+        "mgs_link": "/profile/31103",
+        "score": "44",
+        "roblox_id": 1376639215
+    },
+    "235": {
         "mgs_link": "/profile/27055",
         "score": "42",
         "roblox_id": 5113721735
