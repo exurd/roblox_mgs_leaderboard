@@ -50,24 +50,24 @@
         "roblox_id": null
     },
     "11": {
+        "mgs_link": "/profile/30767",
+        "score": "2011722",
+        "roblox_id": 406804391
+    },
+    "12": {
         "mgs_link": "/profile/9819",
         "score": "2007454",
         "roblox_id": null
     },
-    "12": {
+    "13": {
         "mgs_link": "/profile/30723",
         "score": "1981069",
         "roblox_id": 1058908271
     },
-    "13": {
-        "mgs_link": "/profile/24814",
-        "score": "1974793",
-        "roblox_id": 1946613959
-    },
     "14": {
-        "mgs_link": "/profile/30767",
-        "score": "1960177",
-        "roblox_id": 406804391
+        "mgs_link": "/profile/24814",
+        "score": "1974777",
+        "roblox_id": 1946613959
     },
     "15": {
         "mgs_link": "/profile/26705",
@@ -356,12 +356,12 @@
     },
     "72": {
         "mgs_link": "/profile/24825",
-        "score": "449959",
+        "score": "449953",
         "roblox_id": 21711375
     },
     "73": {
         "mgs_link": "/profile/22828",
-        "score": "448278",
+        "score": "447895",
         "roblox_id": 274794507
     },
     "74": {
@@ -461,7 +461,7 @@
     },
     "93": {
         "mgs_link": "/profile/31185",
-        "score": "315313",
+        "score": "315814",
         "roblox_id": 10950770
     },
     "94": {
@@ -835,14 +835,14 @@
         "roblox_id": 88308203
     },
     "168": {
+        "mgs_link": "/profile/27023",
+        "score": "57010",
+        "roblox_id": 2910782688
+    },
+    "169": {
         "mgs_link": "/profile/24181",
         "score": "56046",
         "roblox_id": 3361194952
-    },
-    "169": {
-        "mgs_link": "/profile/27023",
-        "score": "55765",
-        "roblox_id": 2910782688
     },
     "170": {
         "mgs_link": "/profile/24493",
@@ -930,14 +930,14 @@
         "roblox_id": null
     },
     "187": {
+        "mgs_link": "/profile/26827",
+        "score": "38902",
+        "roblox_id": 2663093957
+    },
+    "188": {
         "mgs_link": "/profile/24379",
         "score": "38715",
         "roblox_id": 68403249
-    },
-    "188": {
-        "mgs_link": "/profile/26827",
-        "score": "35726",
-        "roblox_id": 2663093957
     },
     "189": {
         "mgs_link": "/profile/29075",
@@ -1206,7 +1206,7 @@
     },
     "242": {
         "mgs_link": "/profile/15981",
-        "score": "6613",
+        "score": "6605",
         "roblox_id": 860955129
     },
     "243": {
@@ -1260,19 +1260,19 @@
         "roblox_id": 5468146434
     },
     "253": {
-        "mgs_link": "/profile/23796",
-        "score": "2196",
-        "roblox_id": 5631197537
-    },
-    "254": {
         "mgs_link": "/profile/31065",
         "score": "2195",
         "roblox_id": 1544
     },
-    "255": {
+    "254": {
         "mgs_link": "/profile/30382",
         "score": "2193",
         "roblox_id": 5442403527
+    },
+    "255": {
+        "mgs_link": "/profile/23796",
+        "score": "2160",
+        "roblox_id": 5631197537
     },
     "256": {
         "mgs_link": "/profile/27524",
