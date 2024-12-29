@@ -8,9 +8,9 @@ import os, time, re, json, sys, random, math, base64
 
 requestSession = requests.Session()
 requestSession.headers['User-Agent'] = UserAgent( # "roblox_mgs_leaderboard github action"
-        os="linux",
-        platforms="pc",
-        browsers="firefox"
+        os="Linux",
+        platforms="desktop",
+        browsers="Firefox"
         ).random
 
 print(f"User Agent: {requestSession.headers['User-Agent']}")
