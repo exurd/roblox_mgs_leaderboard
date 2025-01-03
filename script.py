@@ -228,7 +228,7 @@ currentTime = time.time()
 if whosWho == {}:
     whosWho["_TIMESTAMP"] = currentTime
 else:
-    if (currentTime - whosWho["_TIMESTAMP"]) > (86400*7): # 1 week cache
+    if (currentTime - whosWho["_TIMESTAMP"]) > (86400 * 14):  # 2 weeks cache
         print(f"whosWho's timestamp ({whosWho["_TIMESTAMP"]}) older than current timestamp ({currentTime}), clearing cache...")
         whosWho = {}
         whosWho["_TIMESTAMP"] = currentTime
