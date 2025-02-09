@@ -15,6 +15,6 @@ The repository uses GitHub Workflows to update the JSON files every 6 hours.
 - [completist](completist_rblx.json)
 - [firsts](firsts_rblx.json)
 
-You need to have the packages [requests](https://pypi.org/project/requests) and [BeautifulSoup4](https://pypi.org/project/beautifulsoup4) installed.
+You need to have the packages [requests](https://pypi.org/project/requests), [BeautifulSoup4](https://pypi.org/project/beautifulsoup4) and [fake-useragent](https://pypi.org/project/fake-useragent) installed.
 
 *Licensed under the GNU General Public License v3.0.*
