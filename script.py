@@ -34,6 +34,7 @@ requestSession.headers["User-Agent"] = UserAgent(
         ).random
 print(f"User Agent: {requestSession.headers["User-Agent"]}")
 
+data_pagy_pattern = re.compile(r'data-pagy="([a-zA-Z0-9\/]+(?:=|==)?)"')
 
 def request_url(url, retry_amount=8, allow_404=False):
     """
@@ -150,6 +151,7 @@ def get_mgs_leaderboard_stats(mgs_type):
     data_dict = {}
     page_num = 1
     attempt = 0
+    pagy_works = True
 
     while True:
         url = f"https://metagamerscore.com/platform_toplist/roblox/{str(mgs_type)}?page={page_num}"
@@ -186,10 +188,25 @@ def get_mgs_leaderboard_stats(mgs_type):
                     "score": score
                 }
 
-            print("Checking data-pagy...")
-            data_pagy = soup.find("nav", class_="pagy-nav-js").get("data-pagy")
-            if check_if_last_page(data_pagy) is True:
-                print("No more pages! Breaking loop...")
+            if pagy_works:
+                print("Checking data-pagy...")
+
+                # data_pagy = soup.find("nav", class_="pagy-nav-js").get("data-pagy")
+                # not doing the above anymore because a website update added a space
+                # inbetween `pagy` and `nav-js`
+                data_pagy = data_pagy_pattern.search(req.text)
+
+                print(f"data_pagy: {data_pagy}")
+                if data_pagy:
+                    print(f"data_pagy matches: {data_pagy.groups()}")
+                    if check_if_last_page(data_pagy.group(1)) is True:
+                        print("No more pages! Breaking loop...")
+                        break
+                else:
+                    print("data-pagy is most likely broken, only getting 3 pages...")
+                    pagy_works = False
+            elif page_num == 3:
+                print("data-pagy broken; got 3 pages, breaking loop...")
                 break
 
             print("Going to next page...")
