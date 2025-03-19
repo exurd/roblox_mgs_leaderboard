@@ -56,7 +56,7 @@
     },
     "12": {
         "mgs_link": "/profile/30570",
-        "score": "113783",
+        "score": "113586",
         "roblox_id": 1751807812
     },
     "13": {
@@ -96,7 +96,7 @@
     },
     "20": {
         "mgs_link": "/profile/3231",
-        "score": "94047",
+        "score": "94342",
         "roblox_id": 1790417412
     },
     "21": {
@@ -771,7 +771,7 @@
     },
     "155": {
         "mgs_link": "",
-        "score": "5642",
+        "score": "5629",
         "roblox_id": null
     },
     "156": {
@@ -1151,7 +1151,7 @@
     },
     "231": {
         "mgs_link": "/profile/23394",
-        "score": "823",
+        "score": "820",
         "roblox_id": 998244782
     },
     "232": {
@@ -1360,14 +1360,14 @@
         "roblox_id": 7639509458
     },
     "273": {
-        "mgs_link": "/profile/26933",
-        "score": "140",
-        "roblox_id": 3206121588
-    },
-    "274": {
         "mgs_link": "/profile/28659",
         "score": "140",
         "roblox_id": 1826478106
+    },
+    "274": {
+        "mgs_link": "/profile/26933",
+        "score": "140",
+        "roblox_id": 3206121588
     },
     "275": {
         "mgs_link": "/pro/SlyJosh",
@@ -1380,14 +1380,14 @@
         "roblox_id": 6180194698
     },
     "277": {
-        "mgs_link": "/profile/29300",
-        "score": "134",
-        "roblox_id": 89769179
-    },
-    "278": {
         "mgs_link": "/profile/20518",
         "score": "134",
         "roblox_id": 2914044012
+    },
+    "278": {
+        "mgs_link": "/profile/29300",
+        "score": "134",
+        "roblox_id": 89769179
     },
     "279": {
         "mgs_link": "/profile/12702",
@@ -1435,13 +1435,13 @@
         "roblox_id": 54169502
     },
     "288": {
-        "mgs_link": "/profile/25285",
-        "score": "2",
-        "roblox_id": 7248833543
-    },
-    "289": {
         "mgs_link": "/profile/7196",
         "score": "2",
         "roblox_id": 131206895
+    },
+    "289": {
+        "mgs_link": "/profile/25285",
+        "score": "2",
+        "roblox_id": 7248833543
     }
 }
