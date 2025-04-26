@@ -19,8 +19,14 @@ from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
 
 
-# the art of bodging doesn't care about beauty
-# IT WILL BE JANKY AND YOU ARE GONNA LIKE IT
+# to anyone at mgs:
+#
+# if you create a simple GET api for
+# your roblox leaderboards, i will
+# stop this project indefinitely.
+#
+# kind regards,
+# exurd
 
 
 TESTING = False
@@ -35,6 +41,8 @@ requestSession.headers["User-Agent"] = UserAgent(
 print(f"User Agent: {requestSession.headers["User-Agent"]}")
 
 data_pagy_pattern = re.compile(r'data-pagy="([a-zA-Z0-9\/]+(?:=|==)?)"')
+document_cookie_pattern = re.compile(r"document\.cookie = \"(.*)\";")
+jsc_pattern = re.compile(r"js_challenge_token=([a-zA-Z0-9]+);")
 
 def request_url(url, retry_amount=8, allow_404=False):
     """
@@ -152,9 +160,13 @@ def get_mgs_leaderboard_stats(mgs_type):
     page_num = 1
     attempt = 0
     pagy_works = True
+    PAGE_FALLBACK = False
 
     while True:
         url = f"https://metagamerscore.com/platform_toplist/roblox/{str(mgs_type)}?page={page_num}"
+        if PAGE_FALLBACK:
+            print("Only getting one page due to something going wrong...")
+            url = f"https://metagamerscore.com/platform_toplist/roblox/{str(mgs_type)}"
         req = request_url(url)
 
         if attempt >= 3:
@@ -177,40 +189,57 @@ def get_mgs_leaderboard_stats(mgs_type):
 
         if req.ok:
             attempt = 0
-            soup = BeautifulSoup(req.text, "html.parser")
-            table = soup.find("table")
-            table_data = extract_table_info(table)
+            try:
+                soup = BeautifulSoup(req.text, "html.parser")
+                table = soup.find("table")
+                table_data = extract_table_info(table)
 
-            print(f"Adding page {str(page_num)}'s table to table_data...")
-            for rank, user_link, score in table_data:
-                data_dict[rank] = {
-                    "mgs_link": user_link,
-                    "score": score
-                }
+                print(f"Adding page {str(page_num)}'s table to table_data...")
+                for rank, user_link, score in table_data:
+                    data_dict[rank] = {
+                        "mgs_link": user_link,
+                        "score": score
+                    }
 
-            if pagy_works:
-                print("Checking data-pagy...")
+                if pagy_works:
+                    print("Checking data-pagy...")
 
-                # data_pagy = soup.find("nav", class_="pagy-nav-js").get("data-pagy")
-                # not doing the above anymore because a website update added a space
-                # inbetween `pagy` and `nav-js`
-                data_pagy = data_pagy_pattern.search(req.text)
+                    # data_pagy = soup.find("nav", class_="pagy-nav-js").get("data-pagy")
+                    # not doing the above anymore because a website update added a space
+                    # inbetween `pagy` and `nav-js`
+                    data_pagy = data_pagy_pattern.search(req.text)
 
-                print(f"data_pagy: {data_pagy}")
-                if data_pagy:
-                    print(f"data_pagy matches: {data_pagy.groups()}")
-                    if check_if_last_page(data_pagy.group(1)) is True:
-                        print("No more pages! Breaking loop...")
-                        break
+                    print(f"data_pagy: {data_pagy}")
+                    if data_pagy:
+                        print(f"data_pagy matches: {data_pagy.groups()}")
+                        if check_if_last_page(data_pagy.group(1)) is True:
+                            print("No more pages! Breaking loop...")
+                            break
+                    else:
+                        print("data-pagy is most likely broken, only getting 3 pages...")
+                        pagy_works = False
+                elif page_num == 3:
+                    print("data-pagy broken; got 3 pages, breaking loop...")
+                    break
+
+                if PAGE_FALLBACK:
+                    break
+                print("Going to next page...")
+                page_num += 1
+            except AttributeError:
+                cooks = document_cookie_pattern.search(req.text)
+                print(f"cooks: {cooks}")
+                if cooks:
+                    print(f"cooks[1]: {cooks[1]}")
+                    for c in cooks[1].split():
+                        r = jsc_pattern.match(c)
+                        if r:
+                            break
+                    requestSession.cookies.set("js_challenge_token", r[1])
+                    print(requestSession.headers)
                 else:
-                    print("data-pagy is most likely broken, only getting 3 pages...")
+                    PAGE_FALLBACK = True
                     pagy_works = False
-            elif page_num == 3:
-                print("data-pagy broken; got 3 pages, breaking loop...")
-                break
-
-            print("Going to next page...")
-            page_num += 1
         else:
             print(f"Response status code: {req.status_code}")
             attempt += 1
