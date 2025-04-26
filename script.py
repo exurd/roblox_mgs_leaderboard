@@ -190,7 +190,7 @@ def get_mgs_leaderboard_stats(mgs_type):
         if req.ok:
             attempt = 0
             try:
-                soup = BeautifulSoup(req.text, "html.parser")
+                soup = BeautifulSoup(req.text, "lxml")
                 table = soup.find("table")
                 table_data = extract_table_info(table)
 
@@ -353,7 +353,7 @@ def get_user_ids(data_dict):
         print(f"Response status code: {req.status_code}")
 
         if req.ok:
-            soup = BeautifulSoup(req.text, "html.parser")
+            soup = BeautifulSoup(req.text, "lxml")
             profile_links = soup.find_all("a", href=user_pattern_no_select)
 
             if profile_links == []:
