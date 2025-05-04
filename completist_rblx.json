@@ -26,7 +26,7 @@
     },
     "6": {
         "mgs_link": "/profile/19425",
-        "score": "349913",
+        "score": "351500",
         "roblox_id": 3396114621
     },
     "7": {
@@ -61,7 +61,7 @@
     },
     "13": {
         "mgs_link": "/profile/30570",
-        "score": "115769",
+        "score": "115825",
         "roblox_id": 1751807812
     },
     "14": {
@@ -236,7 +236,7 @@
     },
     "48": {
         "mgs_link": "/profile/31738",
-        "score": "41735",
+        "score": "41764",
         "roblox_id": 254693948
     },
     "49": {
@@ -261,7 +261,7 @@
     },
     "53": {
         "mgs_link": "/profile/26677",
-        "score": "37448",
+        "score": "37428",
         "roblox_id": 4931207322
     },
     "54": {
@@ -396,7 +396,7 @@
     },
     "80": {
         "mgs_link": "/profile/25452",
-        "score": "22402",
+        "score": "22548",
         "roblox_id": 1927302226
     },
     "81": {
@@ -426,7 +426,7 @@
     },
     "86": {
         "mgs_link": "/profile/31768",
-        "score": "20483",
+        "score": "20468",
         "roblox_id": 969808254
     },
     "87": {
@@ -511,7 +511,7 @@
     },
     "103": {
         "mgs_link": "/profile/31814",
-        "score": "14992",
+        "score": "14960",
         "roblox_id": 2210423641
     },
     "104": {
@@ -701,7 +701,7 @@
     },
     "141": {
         "mgs_link": "/profile/31031",
-        "score": "7668",
+        "score": "7667",
         "roblox_id": 8163320740
     },
     "142": {
@@ -861,7 +861,7 @@
     },
     "173": {
         "mgs_link": "/profile/25767",
-        "score": "4725",
+        "score": "4707",
         "roblox_id": 1181680
     },
     "174": {
@@ -1085,19 +1085,19 @@
         "roblox_id": 49271755
     },
     "218": {
-        "mgs_link": "/profile/32733",
-        "score": "2017",
-        "roblox_id": 973210555
-    },
-    "219": {
         "mgs_link": "",
         "score": "2008",
         "roblox_id": null
     },
-    "220": {
+    "219": {
         "mgs_link": "/profile/29499",
         "score": "2001",
         "roblox_id": 39345191
+    },
+    "220": {
+        "mgs_link": "/profile/32733",
+        "score": "1999",
+        "roblox_id": 973210555
     },
     "221": {
         "mgs_link": "/profile/24750",
@@ -1315,14 +1315,14 @@
         "roblox_id": 69555326
     },
     "264": {
-        "mgs_link": "/profile/32305",
-        "score": "310",
-        "roblox_id": 21750121
-    },
-    "265": {
         "mgs_link": "/profile/17529",
         "score": "310",
         "roblox_id": 5071479884
+    },
+    "265": {
+        "mgs_link": "/profile/32305",
+        "score": "310",
+        "roblox_id": 21750121
     },
     "266": {
         "mgs_link": "/profile/30369",
@@ -1355,14 +1355,14 @@
         "roblox_id": 2383109643
     },
     "272": {
-        "mgs_link": "/profile/29640",
-        "score": "256",
-        "roblox_id": 342848892
-    },
-    "273": {
         "mgs_link": "/profile/26759",
         "score": "256",
         "roblox_id": 3699826121
+    },
+    "273": {
+        "mgs_link": "/profile/29640",
+        "score": "256",
+        "roblox_id": 342848892
     },
     "274": {
         "mgs_link": "/profile/30030",
@@ -1435,14 +1435,14 @@
         "roblox_id": 2019866417
     },
     "288": {
-        "mgs_link": "/profile/20518",
-        "score": "134",
-        "roblox_id": 2914044012
-    },
-    "289": {
         "mgs_link": "/profile/29300",
         "score": "134",
         "roblox_id": 89769179
+    },
+    "289": {
+        "mgs_link": "/profile/20518",
+        "score": "134",
+        "roblox_id": 2914044012
     },
     "290": {
         "mgs_link": "/profile/12702",
@@ -1490,13 +1490,13 @@
         "roblox_id": 54169502
     },
     "299": {
-        "mgs_link": "/profile/7196",
-        "score": "2",
-        "roblox_id": 131206895
-    },
-    "300": {
         "mgs_link": "/profile/25285",
         "score": "2",
         "roblox_id": 7248833543
+    },
+    "300": {
+        "mgs_link": "/profile/7196",
+        "score": "2",
+        "roblox_id": 131206895
     }
 }
