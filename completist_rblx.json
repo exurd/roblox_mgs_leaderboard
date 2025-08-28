@@ -1041,7 +1041,7 @@
     },
     "209": {
         "mgs_link": "/profile/32400",
-        "score": "3045",
+        "score": "3036",
         "roblox_id": 1511314959
     },
     "210": {
@@ -1655,13 +1655,13 @@
         "roblox_id": 7248833543
     },
     "332": {
-        "mgs_link": "/profile/33691",
-        "score": "2",
-        "roblox_id": 117802326
-    },
-    "333": {
         "mgs_link": "/profile/7196",
         "score": "2",
         "roblox_id": 131206895
+    },
+    "333": {
+        "mgs_link": "/profile/33691",
+        "score": "2",
+        "roblox_id": 117802326
     }
 }
