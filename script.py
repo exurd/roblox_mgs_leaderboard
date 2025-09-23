@@ -40,9 +40,17 @@ requestSession.headers["User-Agent"] = UserAgent(
         ).random
 print(f"User Agent: {requestSession.headers["User-Agent"]}")
 
-data_pagy_pattern = re.compile(r'data-pagy="([a-zA-Z0-9\/]+(?:=|==)?)"')
-document_cookie_pattern = re.compile(r"document\.cookie = \"(.*)\";")
-jsc_pattern = re.compile(r"js_challenge_token=([a-zA-Z0-9]+);")
+DATA_PAGY_PATTERN = re.compile(r'data-pagy="([a-zA-Z0-9\/]+(?:=|==)?)"')
+DOCUMENT_COOKIE_PATTERN = re.compile(r"document\.cookie = \"(.*)\";")
+JSC_PATTERN = re.compile(r"js_challenge_token=([a-zA-Z0-9]+);")
+BAIT_WAIT_TIME = 460  # in milliseconds (ユキノオー！)
+
+
+def generate_wait_time() -> float:
+    # no need for random.randint()
+    t = BAIT_WAIT_TIME + (BAIT_WAIT_TIME * random.random())
+    return t / 1000
+
 
 def request_url(url, retry_amount=8, allow_404=False):
     """
@@ -207,7 +215,7 @@ def get_mgs_leaderboard_stats(mgs_type):
                     # data_pagy = soup.find("nav", class_="pagy-nav-js").get("data-pagy")
                     # not doing the above anymore because a website update added a space
                     # inbetween `pagy` and `nav-js`
-                    data_pagy = data_pagy_pattern.search(req.text)
+                    data_pagy = DATA_PAGY_PATTERN.search(req.text)
 
                     print(f"data_pagy: {data_pagy}")
                     if data_pagy:
@@ -227,15 +235,17 @@ def get_mgs_leaderboard_stats(mgs_type):
                 print("Going to next page...")
                 page_num += 1
             except AttributeError:
-                cooks = document_cookie_pattern.search(req.text)
+                cooks = DOCUMENT_COOKIE_PATTERN.search(req.text)
                 print(f"cooks: {cooks}")
                 if cooks:
                     print(f"cooks[1]: {cooks[1]}")
                     for c in cooks[1].split():
-                        r = jsc_pattern.match(c)
+                        r = JSC_PATTERN.match(c)
                         if r:
                             break
                     requestSession.cookies.set("js_challenge_token", r[1])
+                    # wait for a bit; the server doesn't like an instant response
+                    time.sleep(generate_wait_time())
                     print(requestSession.headers)
                 else:
                     PAGE_FALLBACK = True
