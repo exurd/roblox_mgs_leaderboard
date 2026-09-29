@@ -1,0 +1,6 @@
+# pip install pip-tools
+# pip-compile --generate-hashes requirements.in
+beautifulsoup4==4.15.0
+lxml==6.1.3
+requests==2.34.2
+fake-useragent==2.2.0
